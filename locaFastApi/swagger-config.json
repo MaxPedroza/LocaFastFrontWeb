@@ -1,0 +1,1712 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Api LocaFast",
+    "description": "Documentação da API LocaFast",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Login"],
+        "summary": "Faça login",
+        "description": "Caso você não possua um usuário, logue com cpf 99999999999 e senha admin123",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "cpf": "99999999999",
+                "senha": "admin123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token de acesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "colaborador": {
+                    "id": "colaboradorId",
+                    "nome": "colaboradorNome",
+                    "cpf": "colaboradorCpf"
+                  },
+                  "acessToken": {
+                    "status": 200,
+                    "acessToken": "token gerado"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "errors": [
+                    "CPF e senha devem ser informados.",
+                    "Senha incorreta."
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "example": {
+                  "errors": ["CPF não foi informado", "Usuário não encontrado"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Ocorreu um erro interno."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cliente": {
+      "get": {
+        "tags": ["Clientes"],
+        "summary": "Listar todos os clientes",
+        "description": "Retorna uma lista de todos os clientes cadastrados.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de clientes",
+            "content": {
+              "application/json": {
+                "example": {
+                  "numeroCnh": "123456789",
+                  "validadeCnh": "2023-12-31",
+                  "estadoEmissor": "SP",
+                  "nome": "Exemplo Cliente",
+                  "cpf": "123.456.789-01",
+                  "rg": "12345678",
+                  "telefone": "(12)3456-7890",
+                  "email": "cliente@example.com",
+                  "dataNascimento": "1990-01-01",
+                  "status": "Ativo",
+                  "genero": "Feminino"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao buscar clientes."
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Clientes"],
+        "summary": "Cadastrar um novo cliente",
+        "description": "Cadastra um novo cliente com as informações fornecidas.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "numeroCnh": "123456789",
+                "validadeCnh": "2023-12-31",
+                "estadoEmissor": "SP",
+                "nome": "Exemplo Cliente",
+                "cpf": "123.456.789-01",
+                "rg": "12345678",
+                "telefone": "(12)3456-7890",
+                "email": "cliente@example.com",
+                "dataNascimento": "1990-01-01",
+                "status": "Ativo",
+                "genero": "Feminino"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sucesso ao cadastrar cliente",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Cliente cadastrado com sucesso!"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falha na verificação de uma regra de negócio",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message 1": "Todos os campos devem ser preenchidos.",
+                  "message 2": "número da CNH inválido.",
+                  "message 3": "CPF inválido.",
+                  "message 4": "RG inválido.",
+                  "message 5": "O telefone inserido é inválido.",
+                  "message 6": "O email inserido é inválido."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao cadastrar cliente."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cliente/{id}": {
+      "get": {
+        "tags": ["Clientes"],
+        "summary": "Obter cliente por ID",
+        "description": "Retorna um cliente com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do cliente",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "65ede1b972f9e877b79e0ef9"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Cliente não encontrado."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao buscar cliente por ID."
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Clientes"],
+        "summary": "Atualizar cliente por ID",
+        "description": "Atualiza um cliente com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do cliente",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "numeroCnh": "123456789",
+                "validadeCnh": "2023-12-31",
+                "estadoEmissor": "SP",
+                "nome": "Exemplo Cliente",
+                "cpf": "123.456.789-01",
+                "rg": "12345678",
+                "telefone": "(12)3456-7890",
+                "email": "cliente@example.com",
+                "dataNascimento": "1990-01-01",
+                "status": "Ativo",
+                "genero": "Feminino"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cliente atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Cliente atualizado com sucesso!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Cliente não existe."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falha na verificação de uma regra de negócio",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message 1": "Todos os campos devem ser preenchidos.",
+                  "message 2": "número da CNH inválido.",
+                  "message 3": "CPF inválido.",
+                  "message 4": "RG inválido.",
+                  "message 5": "O telefone inserido é inválido.",
+                  "message 6": "O email inserido é inválido."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao atualizar cliente."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Clientes"],
+        "summary": "Remover cliente por ID",
+        "description": "Remove um cliente com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do cliente",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente removido com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Cliente removido com sucesso!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Cliente não existe."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao remover cliente."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reserva": {
+      "get": {
+        "tags": ["Reservas"],
+        "summary": "Obter reservas",
+        "description": "Retorna as reservas de locação de automóveis.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reserva encontrada",
+            "content": {
+              "application/json": {
+                "clienteId": "37261836",
+                "dateRetirada": "2024-10-10",
+                "dateDevolucao": "2024-10-12",
+                "agenciaRetirada": "Agencia Matriz",
+                "agenciaDevolucao": "Agencia Cardec",
+                "categoriaVeiculo": "A",
+                "valorDiaria": "400",
+                "colaboradorId": "165417"
+              }
+            }
+          },
+          "422": {
+            "description": "Reserva não encontrada",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Reserva não encontrada."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao buscar reserva."
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Reservas"],
+        "summary": "Cadastrar uma nova reserva",
+        "description": "Cadastra uma nova reserva com as informações fornecidas.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "clienteId": "37261836",
+                "dateRetirada": "2024-10-10",
+                "dateDevolucao": "2024-10-12",
+                "agenciaRetirada": "Agencia Matriz",
+                "agenciaDevolucao": "Agencia Cardec",
+                "categoriaVeiculo": "A",
+                "valorDiaria": "400"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sucesso ao cadastrar reserva",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Reserva cadastrado com sucesso!"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falha na verificação de uma regra de negócio",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message 1": "Todos os campos devem ser preenchidos.",
+                  "message 2": "Reserva inválida."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao cadastrar reserva."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reserva{id}": {
+      "get": {
+        "tags": ["Reservas"],
+        "summary": "Obter reserva por ID",
+        "description": "Retorna uma reserva com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da reserva",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reserva encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "65ede1b972f9e877b79e0ef9"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Reserva não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Reserva não encontrado."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao buscar reserva por ID."
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": ["Reservas"],
+          "summary": "Atualizar reserva",
+          "description": "Atualiza um reserva com o id fornecido.",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "clienteId": "string",
+              "dateRetirada": "string",
+              "dateDevolucao": "string",
+              "agenciaRetirada": "string",
+              "agenciaDevolucao": "string",
+              "categoriaVeiculo": "string",
+              "valorDiaria": "string",
+              "colaboradorId": "string"
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "clienteId": "37261836",
+              "dateRetirada": "2024-10-10",
+              "dateDevolucao": "2024-10-12",
+              "agenciaRetirada": "Agencia Matriz",
+              "agenciaDevolucao": "Agencia Cardec",
+              "categoriaVeiculo": "A",
+              "valorDiaria": "400",
+              "colaboradorId": "165417"
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Reserva atualizada com sucesso",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Reserva atualizada com sucesso!"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Reserva não encontrada",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Reserva não existe."
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Falha na verificação de uma regra de negócio",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message 1": "Todos os campos devem ser preenchidos.",
+                    "message 2": "Reserva inválida."
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "error": "Erro ao atualizar reserva."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Reservas"],
+          "summary": "Remover reserva por ID",
+          "description": "Remove um reserva com o ID fornecido.",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "clienteId": "string",
+              "dateRetirada": "string",
+              "dateDevolucao": "string",
+              "agenciaRetirada": "string",
+              "agenciaDevolucao": "string",
+              "categoriaVeiculo": "string",
+              "valorDiaria": "string",
+              "colaboradorId": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Reserva removido com sucesso",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Reserva removido com sucesso!"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Reserva não encontrada",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "message": "Reserva não existe."
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "error": "Erro ao remover reserva."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Reservas"],
+        "summary": "Atualizar reserva por ID",
+        "description": "Atualiza uma reserva com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da reserva",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "clienteId": "37261836",
+                "dateRetirada": "2024-10-10",
+                "dateDevolucao": "2024-10-12",
+                "agenciaRetirada": "Agencia Matriz",
+                "agenciaDevolucao": "Agencia Cardec",
+                "categoriaVeiculo": "A",
+                "valorDiaria": "400",
+                "colaboradorId": "165417"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reserva atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Reserva atualizada com sucesso!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Reserva não encontrada",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Reserva não existe."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falha na verificação de uma regra de negócio",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message 1": "Todos os campos devem ser preenchidos.",
+                  "message 2": "Reserva inválida."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao atualizar reserva."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Reservas"],
+        "summary": "Remover reserva por ID",
+        "description": "Remove uma reserva com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da reserva",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reserva removida com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Reserva removida com sucesso!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Reserva não encontradA",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Reserva não existe."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao remover reserva."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contrato": {
+      "post": {
+        "summary": "Cadastrar um novo contrato",
+        "tags": ["Contratos"],
+        "description": "Cadastra um novo contrato com as informações fornecidas.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "carroId": "987654321",
+                "reservaId": "789456123",
+                "colaboradorId": "654987321",
+                "clienteId": "123456789",
+                "status": "ativo",
+                "dataRetirada": "2024-04-04T00:00:00.000Z",
+                "dataDevolucao": "2024-04-08T00:00:00.000Z",
+                "agenciaRetirada": "Agência A",
+                "agenciaDevolucao": "Agência B"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sucesso ao cadastrar contrato",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Contrato cadastrado com sucesso!"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falha na verificação de uma regra de negócio",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message 1": "Todos os campos devem ser preenchidos.",
+                  "message 2": "A data de devolução deve ser posterior à data de retirada.",
+                  "message 3": "O status do contrato deve ser ativo, inativo ou cancelado."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao cadastrar contrato."
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os contratos",
+        "tags": ["Contratos"],
+        "description": "Retorna uma lista de todos os contratos cadastrados.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de contratos",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "contratoId": "123456789",
+                    "carroId": "987654321",
+                    "reservaId": "789456123",
+                    "colaboradorId": "654987321",
+                    "clienteId": "123456789",
+                    "status": "ativo",
+                    "dataRetirada": "2024-04-04T00:00:00.000Z",
+                    "dataDevolucao": "2024-04-08T00:00:00.000Z",
+                    "agenciaRetirada": "Agência A",
+                    "agenciaDevolucao": "Agência B"
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao buscar contratos."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contrato/{id}": {
+      "get": {
+        "summary": "Obter contrato por ID",
+        "tags": ["Contratos"],
+        "description": "Retorna um contrato com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do contrato",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contrato encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "contratoId": "123456789",
+                  "carroId": "987654321",
+                  "reservaId": "789456123",
+                  "colaboradorId": "654987321",
+                  "clienteId": "123456789",
+                  "status": "ativo",
+                  "dataRetirada": "2024-04-04T00:00:00.000Z",
+                  "dataDevolucao": "2024-04-08T00:00:00.000Z",
+                  "agenciaRetirada": "Agência A",
+                  "agenciaDevolucao": "Agência B"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contrato não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Contrato não encontrado."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao buscar contrato por ID."
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar contrato por ID",
+        "tags": ["Contratos"],
+        "description": "Atualiza um contrato com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do contrato",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "contratoId": "123456789",
+                "carroId": "987654321",
+                "reservaId": "789456123",
+                "colaboradorId": "654987321",
+                "clienteId": "123456789",
+                "status": "ativo",
+                "dataRetirada": "2024-04-04T00:00:00.000Z",
+                "dataDevolucao": "2024-04-08T00:00:00.000Z",
+                "agenciaRetirada": "Agência A",
+                "agenciaDevolucao": "Agência B"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contrato atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Contrato atualizado com sucesso!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contrato não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Contrato não existe."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falha na verificação de uma regra de negócio",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message 1": "Todos os campos devem ser preenchidos.",
+                  "message 2": "A data de devolução deve ser posterior à data de retirada.",
+                  "message 3": "O status do contrato deve ser ativo, inativo ou cancelado."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao atualizar contrato."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remover contrato por ID",
+        "tags": ["Contratos"],
+        "description": "Remove um contrato com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do contrato",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contrato removido com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Contrato removido com sucesso!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contrato não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Contrato não existe."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao remover contrato."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/carro": {
+      "get": {
+        "summary": "Listar todos os carros",
+        "tags": ["Carros"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Retorna uma lista de todos os carros disponíveis para locação.",
+        "responses": {
+          "200": {
+            "description": "Lista de carros",
+            "content": {
+              "application/json": {
+                "example": {
+                  "placa": "ABC1234",
+                  "marca": "Exemplo Marca",
+                  "modelo": "Exemplo Modelo",
+                  "ano": 2020,
+                  "cor": "Branco",
+                  "status": "Disponível"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao buscar carros."
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Cadastrar um novo carro",
+        "tags": ["Carros"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Cadastra um novo carro com as informações fornecidas.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "placa": "ABC1234",
+                "marca": "Exemplo Marca",
+                "modelo": "Exemplo Modelo",
+                "ano": 2020,
+                "cor": "Branco",
+                "status": "Disponível",
+                "chassi": "9BWZZZ377VT004251",
+                "anoFabricacao": 2020,
+                "categoria": "SUV"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sucesso ao cadastrar carro",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Carro cadastrado com sucesso!"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falha na verificação de uma regra de negócio",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message 1": "Todos os campos devem ser preenchidos.",
+                  "message 2": "Placa inválida.",
+                  "message 3": "Ano inválido."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao cadastrar carro."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/carro/{placa}": {
+      "get": {
+        "summary": "Obter carro por placa",
+        "tags": ["Carros"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Retorna um carro com a placa fornecida.",
+        "parameters": [
+          {
+            "name": "placa",
+            "in": "path",
+            "required": true,
+            "description": "Placa do carro",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carro encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "placa": "ABC1234",
+                  "marca": "Exemplo Marca",
+                  "modelo": "Exemplo Modelo",
+                  "ano": 2020,
+                  "cor": "Branco",
+                  "status": "Disponível"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Carro não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Carro não encontrado."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao buscar carro por placa."
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar carro por placa",
+        "tags": ["Carros"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Atualiza um carro com a placa fornecida.",
+        "parameters": [
+          {
+            "name": "placa",
+            "in": "path",
+            "required": true,
+            "description": "Placa do carro",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "placa": "ABC1234",
+                "marca": "Exemplo Marca",
+                "modelo": "Exemplo Modelo",
+                "ano": 2020,
+                "cor": "Branco",
+                "status": "Disponível"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Carro atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Carro atualizado com sucesso!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Carro não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Carro não existe."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falha na verificação de uma regra de negócio",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message 1": "Todos os campos devem ser preenchidos.",
+                  "message 2": "Placa inválida.",
+                  "message 3": "Ano inválido."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao atualizar carro."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remover carro por placa",
+        "tags": ["Carros"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Remove um carro com a placa fornecida.",
+        "parameters": [
+          {
+            "name": "placa",
+            "in": "path",
+            "required": true,
+            "description": "Placa do carro",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carro removido com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Carro removido com sucesso!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Carro não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Carro não existe."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao remover carro."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/colaborador": {
+      "post": {
+        "summary": "Cadastrar um novo colaborador",
+        "tags": ["Colaboradores"],
+        "description": "Cadastra um novo colaborador com as informações fornecidas.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "nome": "Novo Colaborador",
+                "cpf": "16187791732",
+                "rg": "84576325",
+                "telefone": "(31)984718936",
+                "dataNascimento": "05/07/1989",
+                "senha": "colaborador123",
+                "genero": "Masculino"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sucesso ao cadastrar colaborador",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Colaborador cadastrado com sucesso!"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falha na verificação de uma regra de negócio",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message 1": "Todos os campos devem ser preenchidos.",
+                  "message 2": "CPF inválido.",
+                  "message 3": "RG inválido.",
+                  "message 4": "O telefone inserido é inválido."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao cadastrar colaborador."
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar todos os colaboradores",
+        "tags": ["Colaboradores"],
+        "description": "Retorna uma lista de todos os colaboradores cadastrados.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de colaboradores",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "nome": "Novo Colaborador",
+                    "cpf": "16187791732",
+                    "rg": "84576325",
+                    "telefone": "(31)984718936",
+                    "dataNascimento": "05/07/1989",
+                    "senha": "colaborador123",
+                    "genero": "Masculino"
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao buscar colaboradores."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/colaborador/{id}": {
+      "get": {
+        "tags": ["Colaboradores"],
+        "summary": "Obter colaborador por ID",
+        "description": "Retorna um colaborador com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do colaborador",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "colaborador encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "65ede1b972f9e877b79e0ef9"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "colaborador não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "colaborador não encontrado."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao buscar colaborador por ID."
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Colaboradores"],
+        "summary": "Atualizar colaborador por ID",
+        "description": "Atualiza um colaborador com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do colaborador",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "nome": "Novo Colaborador",
+                "cpf": "16187791732",
+                "rg": "84576325",
+                "telefone": "(31)984718936",
+                "dataNascimento": "05/07/1989",
+                "senha": "colaborador123",
+                "genero": "Masculino"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "colaborador atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "colaborador atualizado com sucesso!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "colaborador não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "colaborador não existe."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Falha na verificação de uma regra de negócio",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message 1": "Todos os campos devem ser preenchidos.",
+                  "message 2": "CPF inválido.",
+                  "message 3": "RG inválido.",
+                  "message 4": "O telefone inserido é inválido."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao atualizar colaborador."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Colaboradores"],
+        "summary": "Remover colaborador por ID",
+        "description": "Remove um colaborador com o ID fornecido.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do colaborador",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Colaborador removido com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Colaborador removido com sucesso!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Colaborador não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Colaborador não existe."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Erro ao remover colaborador."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "description": "Autenticação JWT",
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

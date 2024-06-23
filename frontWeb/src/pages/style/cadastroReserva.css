@@ -1,0 +1,134 @@
+@import url('../../consts/colors.css');
+
+.navigator {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.reserva-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80%;
+    width: 80%;
+}
+
+.steps-container {
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+    background-color: var(--toggle-color);
+    overflow: auto;
+}
+
+.reserva-form-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--sidebar-color);
+    height: 100%;
+    width: 65%;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.reserva-form-container form .input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.reserva-form-container #header-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: var(--header-table-color);
+    border-radius: 5px 5px 0 0;
+    height: 50px;
+}
+
+.reserva-form-container form {
+    height: 100%;
+}
+
+.calendars-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 10px;
+}
+
+.calendar-single {
+    border-radius: 5px;
+    background-color: var(--header-table-color);
+    padding: 5px;
+}
+
+#button-container {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-form {
+    padding: 30px;
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.top-form .input-container {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.top-form .input-container input {
+    width: 300px;
+    height: 50px;
+    padding-left: 10px;
+    border: 1px solid var(--text-color);
+    outline: none;
+}
+
+.nav-bar {
+    height: 50px;
+    flex-shrink: 0;
+}
+
+.nav-bar ul {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    list-style: none;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.nav-bar ul li {
+    display: flex;
+    flex: 1;
+    border-bottom: 2px solid var(--text-color);
+}
+
+.nav-bar ul li:hover {
+    border-bottom-color: var(--footer-color);
+}
+
+.nav-bar ul li a {
+    display: flex;
+    text-decoration: none;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.nav-bar ul li a:hover {
+    color: var(--footer-color);
+}

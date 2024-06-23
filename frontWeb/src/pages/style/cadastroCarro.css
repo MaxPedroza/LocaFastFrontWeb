@@ -1,0 +1,41 @@
+.titulo {
+    color: rgba(151, 71, 255, 1);
+    text-align: center;
+    font-size: 4.5ch;
+}
+
+.login {
+    background-color: rgba(228, 204, 255, 1);
+    color: rgba(151, 71, 255, 1);
+    width: 55%;
+    padding: 15px;
+    border-color: rgba(151, 71, 255, 1);
+    border-width: 1px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.botao{
+    background-color: rgba(228, 204, 255, 1);
+    color: rgba(151, 71, 255, 1);
+    width: 25%;
+    padding: 15px;
+    border-color: rgba(151, 71, 255, 1);
+    border-radius: 15px;
+    border-width: 1px;
+    font-weight: bold;
+}
+
+h3{
+    text-align: left;
+    margin-left: 21.5%;
+    color: rgba(151, 71, 255, 1);
+}
+
+.navigator {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+

@@ -1,0 +1,15 @@
+@import url('../../consts/colors.css');
+
+.button-form {
+    background-color: var(--header-table-color);
+    border-radius: 5px;
+    height: 40px;
+    font-size: 20px;
+    transition: var(--tran-03);
+    cursor: pointer;
+}
+
+.button-form:hover {
+    color: #F8F8FF;
+    transform: scale(1.05);
+}
